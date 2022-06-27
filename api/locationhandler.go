@@ -8,8 +8,18 @@ import (
 	"github.com/yusufatalay/RentACar/models"
 )
 
+// GetActiveLocations godoc
+// @Summary      List active locations
+// @Description  List all active locations
+// @Tags         locations
+// @Accept       json
+// @Produce      json
+// @Success      200  {object}  models.SuccessfullActiveLocations
+// @Failure      404  {object}  models.Error
+// @Failure      500  {object}  models.Error
+// @Router       /locations/active [get]
 func GetActiveLocations(c *fiber.Ctx) error {
-	var activelocations []models.Location
+	var activelocations []models.LocationIdentifier
 	var err error
 	activelocations, err = models.GetActiveLocations()
 

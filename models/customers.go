@@ -17,8 +17,6 @@ type Customer struct {
 	TCID        string    `gorm:"unique" validate:"required,string,min=11,max=11" json:"tc_id"`
 	DOB         time.Time `validate:"datetime,required" json:"date_of_birth"`
 	PhoneNumber string    `validate:"e164,required" json:"phone_number"` // phone numbers must be in E.164 format
-	CreatedAt   int64     `gorm:"autoCreateTime"`
-	UpdatedAt   int64     `gorm:"autoUpdateTime:milli"`
 }
 
 func ValidateCustomer(customer *Customer) []validator.FieldError {

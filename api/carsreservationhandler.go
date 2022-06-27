@@ -8,9 +8,22 @@ import (
 	"github.com/yusufatalay/RentACar/models"
 )
 
+// ReserveACar godoc
+// @Summary    	Reserve an available car
+// @Description Send reservation request for a car if its successfull then car is reserved to the given user
+// @Tags         reservations
+// @Accept       json
+// @Produce      json
+// @Param        account  body      models.CarReservationModel true  "Reserve a car"
+// @Success      200      {object} 	models.SuccessfullReservation
+// @Failure 	 204 	  {object}  models.Error
+// @Failure      400      {object}  models.Error
+// @Failure      404      {object}  models.Error
+// @Failure      500      {object} 	models.Error
+// @Router       /reservations [post]
 func ReserveACar(c *fiber.Ctx) error {
 
-	var payload models.CarsReservation
+	var payload models.CarReservationModel
 	var err error
 	if err = c.BodyParser(&payload); err != nil {
 		log.Printf("Error: %v", err)
@@ -62,6 +75,17 @@ func ReserveACar(c *fiber.Ctx) error {
 	return nil
 }
 
+// GetAllReservations godoc
+// @Summary      List all reservations in the system
+// @Description   List all reservations in the system
+// @Tags        	reservations
+// @Accept       json
+// @Produce      json
+// @Success      200  {object} 	models.SuccessfullAllReservations
+// @Failure      400  {object}  models.Error
+// @Failure      404  {object}  models.Error
+// @Failure      500  {object} 	models.Error
+// @Router       /reservations/all [get]
 func GetAllReservations(c *fiber.Ctx) error {
 	var payload []models.CarsReservation
 	var err error

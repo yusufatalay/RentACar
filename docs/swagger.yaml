@@ -1,0 +1,256 @@
+basePath: /api/v1
+definitions:
+  models.Car:
+    properties:
+      fuel:
+        maxLength: 32
+        minLength: 2
+        type: string
+      id:
+        type: integer
+      name:
+        maxLength: 32
+        minLength: 2
+        type: string
+      office_id:
+        type: integer
+      transmission:
+        maxLength: 32
+        minLength: 2
+        type: string
+    required:
+    - fuel
+    - name
+    - office_id
+    - transmission
+    type: object
+  models.CarAvailabilityIdentifier:
+    properties:
+      location_id:
+        type: integer
+      reservation_begin:
+        type: string
+      reservation_end:
+        type: string
+    type: object
+  models.CarReservationModel:
+    properties:
+      car_id:
+        type: integer
+      leaser_id:
+        type: integer
+      location_id:
+        type: integer
+      reservation_begin:
+        type: string
+      reservation_end:
+        type: string
+    required:
+    - car_id
+    - leaser_id
+    - location_id
+    - reservation_begin
+    - reservation_end
+    type: object
+  models.CarsReservation:
+    properties:
+      car_id:
+        type: integer
+      id:
+        type: integer
+      leaser_id:
+        type: integer
+      location_id:
+        type: integer
+      reservation_begin:
+        type: string
+      reservation_end:
+        type: string
+    required:
+    - car_id
+    - leaser_id
+    - location_id
+    - reservation_begin
+    - reservation_end
+    type: object
+  models.Error:
+    properties:
+      code:
+        type: string
+      message:
+        type: string
+    type: object
+  models.LocationIdentifier:
+    properties:
+      active:
+        type: boolean
+      id:
+        type: integer
+      name:
+        type: string
+    type: object
+  models.SuccessfullActiveLocations:
+    properties:
+      data:
+        items:
+          $ref: '#/definitions/models.LocationIdentifier'
+        type: array
+      message:
+        type: string
+    type: object
+  models.SuccessfullAllReservations:
+    properties:
+      data:
+        items:
+          $ref: '#/definitions/models.CarsReservation'
+        type: array
+      message:
+        type: string
+    type: object
+  models.SuccessfullAvailableCars:
+    properties:
+      data:
+        items:
+          $ref: '#/definitions/models.Car'
+        type: array
+      message:
+        type: string
+    type: object
+  models.SuccessfullReservation:
+    properties:
+      data:
+        $ref: '#/definitions/models.CarReservationModel'
+      message:
+        type: string
+    type: object
+host: localhost:3000
+info:
+  contact: {}
+  description: This is RentACarAPI documentation
+  title: RentACar Yolcu360 Case
+  version: "1.0"
+paths:
+  /locations/active:
+    get:
+      consumes:
+      - application/json
+      description: List all active locations
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.SuccessfullActiveLocations'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/models.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Error'
+      summary: List active locations
+      tags:
+      - locations
+  /reservations:
+    post:
+      consumes:
+      - application/json
+      description: Send reservation request for a car if its successfull then car
+        is reserved to the given user
+      parameters:
+      - description: Reserve a car
+        in: body
+        name: account
+        required: true
+        schema:
+          $ref: '#/definitions/models.CarReservationModel'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.SuccessfullReservation'
+        "204":
+          description: No Content
+          schema:
+            $ref: '#/definitions/models.Error'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Error'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/models.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Error'
+      summary: Reserve an available car
+      tags:
+      - reservations
+  /reservations/all:
+    get:
+      consumes:
+      - application/json
+      description: List all reservations in the system
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.SuccessfullAllReservations'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Error'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/models.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Error'
+      summary: List all reservations in the system
+      tags:
+      - reservations
+  /reservations/lookup:
+    post:
+      consumes:
+      - application/json
+      description: Get available cars with the given parameters
+      parameters:
+      - description: Get available cars
+        in: body
+        name: account
+        required: true
+        schema:
+          $ref: '#/definitions/models.CarAvailabilityIdentifier'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.SuccessfullAvailableCars'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Error'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/models.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Error'
+      summary: Get available cars
+      tags:
+      - reservations
+swagger: "2.0"

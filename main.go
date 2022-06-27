@@ -11,6 +11,11 @@ import (
 
 var App *fiber.App
 
+// @title RentACar Yolcu360 Case
+// @version 1.0
+// @description This is RentACarAPI documentation
+// @host localhost:3000
+// @BasePath /api/v1
 func main() {
 
 	App = fiber.New()

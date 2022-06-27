@@ -17,8 +17,26 @@ type CarsReservation struct {
 	ReservationEnd   time.Time `json:"reservation_end"  validate:"required,datetime"`
 }
 
+type CarReservationModel struct {
+	CarID            uint      `json:"car_id" validate:"required"`
+	LeaserID         uint      `json:"leaser_id" validate:"required"`
+	LocationID       uint      `json:"location_id" validate:"required"`
+	ReservationBegin time.Time `json:"reservation_begin" validate:"required,datetime"`
+	ReservationEnd   time.Time `json:"reservation_end"  validate:"required,datetime"`
+}
+
+type SuccessfullAllReservations struct {
+	Message string
+	Data    []CarsReservation
+}
+
+type SuccessfullReservation struct {
+	Message string
+	Data    CarReservationModel
+}
+
 // check if there already exist a reservation on given time interval
-func IsReservationAvailable(reservation *CarsReservation) (bool, error) {
+func IsReservationAvailable(reservation *CarReservationModel) (bool, error) {
 	var reservations []CarsReservation
 	err := database.DBConn.Where("location_id = ? AND reservation_begin < ? AND reservation_end > ?", reservation.LocationID, reservation.ReservationEnd, reservation.ReservationBegin).Find(&reservations).Error
 	if err != nil {
@@ -32,7 +50,7 @@ func IsReservationAvailable(reservation *CarsReservation) (bool, error) {
 }
 
 // we need to check the constraints again just in case
-func CreateReservation(reservation *CarsReservation) error {
+func CreateReservation(reservation *CarReservationModel) error {
 
 	var flag bool
 	var err error

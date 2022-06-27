@@ -16,8 +16,6 @@ type Car struct {
 	Transmission string `json:"transmission" validate:"required,string,min=2,max=32"`
 	Name         string `json:"name" validate:"required,string,min=2,max=32"`
 	OfficeID     uint   `json:"office_id" validate:"required"`
-	CreatedAt    int64  `gorm:"autoCreateTime"`
-	UpdatedAt    int64  `gorm:"autoUpdateTime:milli"`
 }
 
 func ValidateCar(car *Car) []validator.FieldError {
@@ -75,6 +73,11 @@ type CarAvailabilityIdentifier struct {
 	LocationID       uint      `json:"location_id"`
 	ReservationBegin time.Time `json:"reservation_begin"`
 	ReservationEnd   time.Time `json:"reservation_end"`
+}
+
+type SuccessfullAvailableCars struct {
+	Message string
+	Data    []Car
 }
 
 // GetCarAvailability returns a list of cars that are available for the given time and  location

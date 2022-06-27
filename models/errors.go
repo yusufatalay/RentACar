@@ -20,3 +20,4 @@ var TechnicalErrors = []Error{
 	{Code: "tecErr2", Message: "Database error."},
 	{Code: "tecErr3", Message: "Cannot send JSON."},
 }
+

@@ -41,6 +41,18 @@ func CreateCar(c *fiber.Ctx) error {
 	return nil
 }
 
+// GetAvailableCars godoc
+// @Summary     Get available cars
+// @Description Get available cars with the given parameters
+// @Tags         reservations
+// @Accept       json
+// @Produce      json
+// @Param        account  body      models.CarAvailabilityIdentifier true  "Get available cars"
+// @Success      200      {object} 	models.SuccessfullAvailableCars
+// @Failure      400      {object}  models.Error
+// @Failure      404      {object}  models.Error
+// @Failure      500      {object}  models.Error
+// @Router       /reservations/lookup [post]
 func GetAvailableCars(c *fiber.Ctx) error {
 	var payload models.CarAvailabilityIdentifier
 	var availablecars []models.Car

@@ -15,8 +15,17 @@ type Location struct {
 	Active           bool              `json:"active" validate:"required,boolean"`
 	Offices          []Office          `gorm:"foreignkey:LocationID" json:"offices"`
 	CarsReservations []CarsReservation `gorm:"foreignkey:LocationID" json:"cars_reservations"`
-	CreatedAt        int64             `gorm:"autoCreateTime"`
-	UpdatedAt        int64             `gorm:"autoUpdateTime:milli"`
+}
+
+type LocationIdentifier struct {
+	ID     uint   `json:"id"`
+	Name   string `json:"name"`
+	Active bool   `json:"active"`
+}
+
+type SuccessfullActiveLocations struct {
+	Message string
+	Data    []LocationIdentifier
 }
 
 func ValidateLocation(location *Location) []validator.FieldError {
@@ -67,8 +76,8 @@ func GetLocation(id uint) (*Location, error) {
 	return location, nil
 }
 
-func GetAllLocations() ([]Location, error) {
-	var locations []Location
+func GetAllLocations() ([]LocationIdentifier, error) {
+	var locations []LocationIdentifier
 	err := database.DBConn.Find(&locations).Error
 	if err != nil {
 		return nil, err
@@ -76,8 +85,8 @@ func GetAllLocations() ([]Location, error) {
 	return locations, nil
 }
 
-func GetActiveLocations() ([]Location, error) {
-	var locations []Location
+func GetActiveLocations() ([]LocationIdentifier, error) {
+	var locations []LocationIdentifier
 	err := database.DBConn.Where("active = ?", true).Find(&locations).Error
 	if err != nil {
 		return nil, err

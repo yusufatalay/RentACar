@@ -18,9 +18,6 @@ type Office struct {
 	ClosingHour       time.Time           `json:"closing_hour" validate:"required,datetime"`
 	Cars              []Car               `gorm:"foreignkey:OfficeID" json:"cars"`
 	OfficesWorkingDay []OfficesWorkingDay `gorm:"foreignkey:OfficeID" json:"offices_working_day"`
-
-	CreatedAt int64 `gorm:"autoCreateTime"`
-	UpdatedAt int64 `gorm:"autoUpdateTime:milli"`
 }
 
 func ValidateOffice(office *Office) []validator.FieldError {
