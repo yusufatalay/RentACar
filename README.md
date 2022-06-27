@@ -2,6 +2,18 @@
 Yolcu360's Take-home case study
 ### Updated will come as I complete functional requirements
 
+## How to run 
+1-) Run docker compose file
+```console
+docker-compose -f docker-compose.app.yml up
+```
+
+2-) To see all the end-points go to the swagger end-point in the app
+```URL
+localhost:3000/swagger
+```
+
+
 ## Tools of Choice
 * Language & Framework -- Go & Fiber
 * Database -- Postgresql
