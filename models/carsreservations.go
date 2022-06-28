@@ -13,16 +13,16 @@ type CarsReservation struct {
 	CarID            uint      `json:"car_id" validate:"required"`
 	LeaserID         uint      `json:"leaser_id" validate:"required"`
 	LocationID       uint      `json:"location_id" validate:"required"`
-	ReservationBegin time.Time `json:"reservation_begin" validate:"required,datetime"`
-	ReservationEnd   time.Time `json:"reservation_end"  validate:"required,datetime"`
+	ReservationBegin time.Time `json:"reservation_begin" validate:"required"`
+	ReservationEnd   time.Time `json:"reservation_end"  validate:"required"`
 }
 
 type CarReservationModel struct {
 	CarID            uint      `json:"car_id" validate:"required"`
 	LeaserID         uint      `json:"leaser_id" validate:"required"`
 	LocationID       uint      `json:"location_id" validate:"required"`
-	ReservationBegin time.Time `json:"reservation_begin" validate:"required,datetime"`
-	ReservationEnd   time.Time `json:"reservation_end"  validate:"required,datetime"`
+	ReservationBegin time.Time `json:"reservation_begin" validate:"required"`
+	ReservationEnd   time.Time `json:"reservation_end"  validate:"required"`
 }
 
 type SuccessfullAllReservations struct {

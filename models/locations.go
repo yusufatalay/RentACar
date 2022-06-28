@@ -3,6 +3,7 @@ package models
 import (
 	"errors"
 	"log"
+	"strconv"
 
 	"github.com/go-playground/validator/v10"
 	"github.com/yusufatalay/RentACar/database"
@@ -11,21 +12,15 @@ import (
 
 type Location struct {
 	ID               uint              `gorm:"primaryKey" json:"id"`
-	Name             string            `json:"name" validate:"required,string,min=2,max=32"`
-	Active           bool              `json:"active" validate:"required,boolean"`
-	Offices          []Office          `gorm:"foreignkey:LocationID" json:"offices"`
-	CarsReservations []CarsReservation `gorm:"foreignkey:LocationID" json:"cars_reservations"`
-}
-
-type LocationIdentifier struct {
-	ID     uint   `json:"id"`
-	Name   string `json:"name"`
-	Active bool   `json:"active"`
+	Name             string            `json:"name" validate:"required,min=2,max=32"`
+	Active           string            `json:"active" validate:"required,boolean"`
+	Offices          []Office          `gorm:"foreignKey:LocationID" json:"offices"`
+	CarsReservations []CarsReservation `gorm:"foreignKey:LocationID" json:"cars_reservations"`
 }
 
 type SuccessfullActiveLocations struct {
 	Message string
-	Data    []LocationIdentifier
+	Data    []Location
 }
 
 func ValidateLocation(location *Location) []validator.FieldError {
@@ -76,8 +71,8 @@ func GetLocation(id uint) (*Location, error) {
 	return location, nil
 }
 
-func GetAllLocations() ([]LocationIdentifier, error) {
-	var locations []LocationIdentifier
+func GetAllLocations() ([]Location, error) {
+	var locations []Location
 	err := database.DBConn.Find(&locations).Error
 	if err != nil {
 		return nil, err
@@ -85,9 +80,9 @@ func GetAllLocations() ([]LocationIdentifier, error) {
 	return locations, nil
 }
 
-func GetActiveLocations() ([]LocationIdentifier, error) {
-	var locations []LocationIdentifier
-	err := database.DBConn.Where("active = ?", true).Find(&locations).Error
+func GetActiveLocations() ([]Location, error) {
+	var locations []Location
+	err := database.DBConn.Where("active = ?", "true").Find(&locations).Error
 	if err != nil {
 		return nil, err
 	}
@@ -100,5 +95,6 @@ func IsLocationActive(id uint) (bool, error) {
 	if err != nil {
 		return false, err
 	}
-	return location.Active, nil
+	result, _ := strconv.ParseBool(location.Active)
+	return result, nil
 }

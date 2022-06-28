@@ -12,12 +12,12 @@ import (
 
 type Office struct {
 	ID                uint                `gorm:"primaryKey" json:"id"`
-	Vendor            string              `json:"vendor" validate:"required,string,min=2,max=32"`
+	Vendor            string              `json:"vendor" validate:"required,min=2,max=32"`
 	LocationID        uint                `json:"location_id" validate:"required"`
-	OpeningHour       time.Time           `json:"opening_hour" validate:"required,datetime"`
-	ClosingHour       time.Time           `json:"closing_hour" validate:"required,datetime"`
-	Cars              []Car               `gorm:"foreignkey:OfficeID" json:"cars"`
-	OfficesWorkingDay []OfficesWorkingDay `gorm:"foreignkey:OfficeID" json:"offices_working_day"`
+	OpeningHour       time.Time           `json:"opening_hour" validate:"required"`
+	ClosingHour       time.Time           `json:"closing_hour" validate:"required"`
+	Cars              []Car               `gorm:"foreignKey:OfficeID" json:"cars"`
+	OfficesWorkingDay []OfficesWorkingDay `gorm:"foreignKey:OfficeID" json:"offices_working_day"`
 }
 
 func ValidateOffice(office *Office) []validator.FieldError {

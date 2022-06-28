@@ -15,7 +15,7 @@ func init() {
 
 	// initiate the validator
 	validate = validator.New()
-	err := database.DBConn.AutoMigrate(&Location{}, &Office{}, &Car{}, &OfficesWorkingDay{}, &Error{}, &CarsReservation{}, &Customer{})
+	err := database.DBConn.AutoMigrate(&Location{}, &Office{}, &Car{}, &OfficesWorkingDay{}, &CarsReservation{}, &Customer{})
 
 	if err != nil {
 		log.Fatalf("Error: %v", err)

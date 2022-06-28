@@ -12,10 +12,10 @@ import (
 
 type Customer struct {
 	ID          uint      `gorm:"primaryKey:auto_increment" validate:"required" json:"id"`
-	FirstName   string    `validate:"required,string,min=2,max=32" json:"first_name"`
-	LastName    string    `validate:"required,string,min=2,max=32" json:"last_name"`
-	TCID        string    `gorm:"unique" validate:"required,string,min=11,max=11" json:"tc_id"`
-	DOB         time.Time `validate:"datetime,required" json:"date_of_birth"`
+	FirstName   string    `validate:"required,min=2,max=32" json:"first_name"`
+	LastName    string    `validate:"required,min=2,max=32" json:"last_name"`
+	TCID        string    `gorm:"unique" validate:"required,min=11,max=11" json:"tc_id"`
+	DOB         time.Time `validate:"required" json:"date_of_birth"`
 	PhoneNumber string    `validate:"e164,required" json:"phone_number"` // phone numbers must be in E.164 format
 }
 

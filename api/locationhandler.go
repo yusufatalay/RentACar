@@ -19,7 +19,7 @@ import (
 // @Failure      500  {object}  models.Error
 // @Router       /locations/active [get]
 func GetActiveLocations(c *fiber.Ctx) error {
-	var activelocations []models.LocationIdentifier
+	var activelocations []models.Location
 	var err error
 	activelocations, err = models.GetActiveLocations()
 

@@ -24,6 +24,7 @@ func main() {
 	if err != nil {
 		log.Fatalf("Database Error: %v", err)
 	}
+
 	// register routes
 	routes.Routes(App)
 
