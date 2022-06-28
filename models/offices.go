@@ -11,7 +11,7 @@ import (
 )
 
 type Office struct {
-	ID                uint                `gorm:"primaryKey" json:"id"`
+	ID                uint                `gorm:"primaryKey;auto_increment" json:"id"`
 	Vendor            string              `json:"vendor" validate:"required,min=2,max=32"`
 	LocationID        uint                `json:"location_id" validate:"required"`
 	OpeningHour       time.Time           `json:"opening_hour" validate:"required"`
@@ -77,8 +77,13 @@ func UpdateOffice(office *Office) error {
 	return nil
 }
 
-func IsOfficeOpen(id uint, reservationBegin time.Time) (bool, error) {
-	office, err := GetOffice(id)
+func IsOfficeOpen(carID uint, reservationBegin time.Time) (bool, error) {
+	result, err := GetCar(carID)
+	if err != nil {
+		log.Printf("Error: %v", err)
+	}
+
+	office, err := GetOffice(result.OfficeID)
 	reservationDay := reservationBegin.Weekday().String()
 	var isOpen bool
 	if err != nil {

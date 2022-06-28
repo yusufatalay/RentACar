@@ -67,7 +67,7 @@ const docTemplate = `{
                 "parameters": [
                     {
                         "description": "Reserve a car",
-                        "name": "account",
+                        "name": "CarReservationModel",
                         "in": "body",
                         "required": true,
                         "schema": {
@@ -166,7 +166,7 @@ const docTemplate = `{
                 "parameters": [
                     {
                         "description": "Get available cars",
-                        "name": "account",
+                        "name": "CarAvailabilityIdentifier",
                         "in": "body",
                         "required": true,
                         "schema": {
@@ -210,7 +210,8 @@ const docTemplate = `{
                 "fuel",
                 "name",
                 "office_id",
-                "transmission"
+                "transmission",
+                "vendor"
             ],
             "properties": {
                 "fuel": {
@@ -233,6 +234,11 @@ const docTemplate = `{
                     "type": "string",
                     "maxLength": 32,
                     "minLength": 2
+                },
+                "vendor": {
+                    "type": "string",
+                    "maxLength": 32,
+                    "minLength": 3
                 }
             }
         },
@@ -318,17 +324,89 @@ const docTemplate = `{
                 }
             }
         },
-        "models.LocationIdentifier": {
+        "models.Location": {
             "type": "object",
+            "required": [
+                "active",
+                "name"
+            ],
             "properties": {
                 "active": {
-                    "type": "boolean"
+                    "type": "string"
+                },
+                "cars_reservations": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/models.CarsReservation"
+                    }
                 },
                 "id": {
                     "type": "integer"
                 },
                 "name": {
+                    "type": "string",
+                    "maxLength": 32,
+                    "minLength": 2
+                },
+                "offices": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/models.Office"
+                    }
+                }
+            }
+        },
+        "models.Office": {
+            "type": "object",
+            "required": [
+                "closing_hour",
+                "location_id",
+                "opening_hour",
+                "vendor"
+            ],
+            "properties": {
+                "cars": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/models.Car"
+                    }
+                },
+                "closing_hour": {
                     "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "location_id": {
+                    "type": "integer"
+                },
+                "offices_working_day": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/models.OfficesWorkingDay"
+                    }
+                },
+                "opening_hour": {
+                    "type": "string"
+                },
+                "vendor": {
+                    "type": "string",
+                    "maxLength": 32,
+                    "minLength": 2
+                }
+            }
+        },
+        "models.OfficesWorkingDay": {
+            "type": "object",
+            "properties": {
+                "day": {
+                    "type": "integer"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "office_id": {
+                    "type": "integer"
                 }
             }
         },
@@ -338,7 +416,7 @@ const docTemplate = `{
                 "data": {
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/models.LocationIdentifier"
+                        "$ref": "#/definitions/models.Location"
                     }
                 },
                 "message": {

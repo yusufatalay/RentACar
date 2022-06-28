@@ -11,7 +11,7 @@ import (
 )
 
 type Customer struct {
-	ID          uint      `gorm:"primaryKey:auto_increment" validate:"required" json:"id"`
+	ID          uint      `gorm:"primaryKey;auto_increment" json:"id"`
 	FirstName   string    `validate:"required,min=2,max=32" json:"first_name"`
 	LastName    string    `validate:"required,min=2,max=32" json:"last_name"`
 	TCID        string    `gorm:"unique" validate:"required,min=11,max=11" json:"tc_id"`

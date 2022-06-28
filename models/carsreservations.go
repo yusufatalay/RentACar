@@ -9,7 +9,7 @@ import (
 )
 
 type CarsReservation struct {
-	ID               uint      `gorm:"primaryKey" json:"id"`
+	ID               uint      `gorm:"primaryKey;auto_increment" json:"id"`
 	CarID            uint      `json:"car_id" validate:"required"`
 	LeaserID         uint      `json:"leaser_id" validate:"required"`
 	LocationID       uint      `json:"location_id" validate:"required"`
@@ -17,13 +17,13 @@ type CarsReservation struct {
 	ReservationEnd   time.Time `json:"reservation_end"  validate:"required"`
 }
 
-type CarReservationModel struct {
-	CarID            uint      `json:"car_id" validate:"required"`
-	LeaserID         uint      `json:"leaser_id" validate:"required"`
-	LocationID       uint      `json:"location_id" validate:"required"`
-	ReservationBegin time.Time `json:"reservation_begin" validate:"required"`
-	ReservationEnd   time.Time `json:"reservation_end"  validate:"required"`
-}
+//type CarReservationModel struct {
+//	CarID            uint      `json:"car_id" validate:"required"`
+//	LeaserID         uint      `json:"leaser_id" validate:"required"`
+//	LocationID       uint      `json:"location_id" validate:"required"`
+//	ReservationBegin time.Time `json:"reservation_begin" validate:"required"`
+//	ReservationEnd   time.Time `json:"reservation_end"  validate:"required"`
+//}
 
 type SuccessfullAllReservations struct {
 	Message string
@@ -32,11 +32,11 @@ type SuccessfullAllReservations struct {
 
 type SuccessfullReservation struct {
 	Message string
-	Data    CarReservationModel
+	Data    CarsReservation
 }
 
 // check if there already exist a reservation on given time interval
-func IsReservationAvailable(reservation *CarReservationModel) (bool, error) {
+func IsReservationAvailable(reservation *CarsReservation) (bool, error) {
 	var reservations []CarsReservation
 	err := database.DBConn.Where("location_id = ? AND reservation_begin < ? AND reservation_end > ?", reservation.LocationID, reservation.ReservationEnd, reservation.ReservationBegin).Find(&reservations).Error
 	if err != nil {
@@ -50,7 +50,7 @@ func IsReservationAvailable(reservation *CarReservationModel) (bool, error) {
 }
 
 // we need to check the constraints again just in case
-func CreateReservation(reservation *CarReservationModel) error {
+func CreateReservation(reservation *CarsReservation) error {
 
 	var flag bool
 	var err error
@@ -65,7 +65,7 @@ func CreateReservation(reservation *CarReservationModel) error {
 		return errors.New("location")
 	}
 
-	flag, err = IsOfficeOpen(reservation.LocationID, reservation.ReservationBegin)
+	flag, err = IsOfficeOpen(reservation.CarID, reservation.ReservationBegin)
 
 	if err != nil {
 		log.Printf("Error: %v", err)

@@ -18,11 +18,16 @@ definitions:
         maxLength: 32
         minLength: 2
         type: string
+      vendor:
+        maxLength: 32
+        minLength: 3
+        type: string
     required:
     - fuel
     - name
     - office_id
     - transmission
+    - vendor
     type: object
   models.CarAvailabilityIdentifier:
     properties:
@@ -80,20 +85,70 @@ definitions:
       message:
         type: string
     type: object
-  models.LocationIdentifier:
+  models.Location:
     properties:
       active:
-        type: boolean
+        type: string
+      cars_reservations:
+        items:
+          $ref: '#/definitions/models.CarsReservation'
+        type: array
       id:
         type: integer
       name:
+        maxLength: 32
+        minLength: 2
         type: string
+      offices:
+        items:
+          $ref: '#/definitions/models.Office'
+        type: array
+    required:
+    - active
+    - name
+    type: object
+  models.Office:
+    properties:
+      cars:
+        items:
+          $ref: '#/definitions/models.Car'
+        type: array
+      closing_hour:
+        type: string
+      id:
+        type: integer
+      location_id:
+        type: integer
+      offices_working_day:
+        items:
+          $ref: '#/definitions/models.OfficesWorkingDay'
+        type: array
+      opening_hour:
+        type: string
+      vendor:
+        maxLength: 32
+        minLength: 2
+        type: string
+    required:
+    - closing_hour
+    - location_id
+    - opening_hour
+    - vendor
+    type: object
+  models.OfficesWorkingDay:
+    properties:
+      day:
+        type: integer
+      id:
+        type: integer
+      office_id:
+        type: integer
     type: object
   models.SuccessfullActiveLocations:
     properties:
       data:
         items:
-          $ref: '#/definitions/models.LocationIdentifier'
+          $ref: '#/definitions/models.Location'
         type: array
       message:
         type: string
@@ -162,7 +217,7 @@ paths:
       parameters:
       - description: Reserve a car
         in: body
-        name: account
+        name: CarReservationModel
         required: true
         schema:
           $ref: '#/definitions/models.CarReservationModel'
@@ -227,7 +282,7 @@ paths:
       parameters:
       - description: Get available cars
         in: body
-        name: account
+        name: CarAvailabilityIdentifier
         required: true
         schema:
           $ref: '#/definitions/models.CarAvailabilityIdentifier'

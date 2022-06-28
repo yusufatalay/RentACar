@@ -47,7 +47,7 @@ func CreateCar(c *fiber.Ctx) error {
 // @Tags         reservations
 // @Accept       json
 // @Produce      json
-// @Param        account  body      models.CarAvailabilityIdentifier true  "Get available cars"
+// @Param        CarAvailabilityIdentifier body      models.CarAvailabilityIdentifier true  "Get available cars"
 // @Success      200      {object} 	models.SuccessfullAvailableCars
 // @Failure      400      {object}  models.Error
 // @Failure      404      {object}  models.Error

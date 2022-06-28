@@ -14,7 +14,7 @@ import (
 // @Tags         reservations
 // @Accept       json
 // @Produce      json
-// @Param        account  body      models.CarReservationModel true  "Reserve a car"
+// @Param        CarReservationModel   body      models.CarReservationModel true  "Reserve a car"
 // @Success      200      {object} 	models.SuccessfullReservation
 // @Failure 	 204 	  {object}  models.Error
 // @Failure      400      {object}  models.Error
@@ -23,7 +23,7 @@ import (
 // @Router       /reservations [post]
 func ReserveACar(c *fiber.Ctx) error {
 
-	var payload models.CarReservationModel
+	var payload models.CarsReservation
 	var err error
 	if err = c.BodyParser(&payload); err != nil {
 		log.Printf("Error: %v", err)

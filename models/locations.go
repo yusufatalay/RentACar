@@ -11,7 +11,7 @@ import (
 )
 
 type Location struct {
-	ID               uint              `gorm:"primaryKey" json:"id"`
+	ID               uint              `gorm:"primaryKey;auto_increment" json:"id"`
 	Name             string            `json:"name" validate:"required,min=2,max=32"`
 	Active           string            `json:"active" validate:"required,boolean"`
 	Offices          []Office          `gorm:"foreignKey:LocationID" json:"offices"`
