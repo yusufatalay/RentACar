@@ -18,7 +18,7 @@ localhost:3000/swagger
 * Language & Framework -- Go & Fiber
 * Database -- Postgresql
 * ORM -- Gorm
-* Api Documentation -- fiber-swagger
+* Api Documentation -- fiber-swagger (yaml file can be found in /docs folder)
 * Validation -- Validator (comes with fiber)
 * Testing -- testify
 
